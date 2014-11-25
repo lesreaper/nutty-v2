@@ -30,13 +30,18 @@
 								<% end %>
 								<p class="gray-text">Item #<%= line_item.sku %></p>
 							</td>
-							<td><%= number_field_tag :quantity, line_item.quantity, min: 1, max: 100 %>
-							<a href="#"><span class="glyphicon glyphicon-refresh"></span>update</a>
+							<td>
+							<%= form_tag line_item, method: :patch, remote: true do %> 
+							<%= link_to '#', onClick: "$(this).closest('form').submit()", 'data-no-turbolink' => true do %>
+							<%= number_field_tag :quantity, line_item.quantity, min: 1, max: 100 %>
+							<a href="#"><span class="glyphicon glyphicon-refresh"></span>update
+							<% end %>
+							<% end %>
 							<%= link_to line_item_path(line_item), method: :delete do %>
 							<span class="glyphicon glyphicon-remove"></span>remove
 							<% end %></td>
 							<td class="hidden-xs"><%= number_to_currency line_item.price %></td>
-							<td class="total-price"><%= number_to_currency line_item.subtotal %></td>
+							<td class="total-price" data-line-item-id="<%= line_item.id %>"> <%= number_to_currency line_item.subtotal %></td>
 						</tr>
 					<% end %>
 					</tbody>
@@ -50,7 +55,7 @@
 					<tbody>
 						<tr>
 							<td>Subtotal</td>
-							<td><%= number_to_currency @cart.subtotal %></td>
+							<td id="subtotal"><%= number_to_currency @cart.subtotal %></td>
 						</tr>
 						<tr>
 							<td>Shipping</td>
@@ -62,11 +67,17 @@
 						</tr>
 						<tr class="total-price">
 							<td>Total</td>
-							<td><%= number_to_currency @cart.total %></td>
+							<td id="total"><%= number_to_currency @cart.total %></td>
+						</tr>
+						<tr class="total-price">
+							<td>Total in Bitcoin</td>
+							<td id="bitcoin_total"><%= number_to_currency @cart.bitcoin_total %> BTC</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<a href="#"><button type="button" id="check-out" class="btn btn-red btn-lg">Checkout</button></a>
+			<%= form_tag '/cart/complete', method: :post do %>
+				<%= submit_tag 'Checkout', id: 'check-out', class: "btn btn-red btn-lg" %>
+			<% end %>
 		</div> <!-- End right column -->
 	</div> <!-- /.row --> 

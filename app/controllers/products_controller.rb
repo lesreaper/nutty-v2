@@ -5,6 +5,11 @@ class ProductsController < ApplicationController
   def index
     @get_nutty = true
     @products = Product.all
+    respond_to do |format|
+      format.html
+      format.json { render json: @products, only: [:title, :sku, :price], methods: [:image_thumb] }
+      format.xml { render xml: @products, only: [:title, :sku, :price], methods: [:image_thumb] }
+    end
   end
 
   def show

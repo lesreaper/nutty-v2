@@ -1,5 +1,5 @@
 class LineItem < ActiveRecord::Base
-  belongs_to :cart
+  belongs_to :itemized, polymorphic: true
   belongs_to :product
 
   delegate :price, :title, :sku, to: :product
