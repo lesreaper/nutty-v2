@@ -40,9 +40,12 @@
         <% end %>
         <form class="navbar-form navbar-right">
           <div class="form-group">
-            <a id="cart" href="cart.html">
+            <a id="cart" href="/cart">
               <span class="glyphicon glyphicon-shopping-cart"></span>Cart
-              <span class="badge">3</span>
+              <% if @cart %>
+              <span class="badge"><%= @cart.line_items.count %>
+              </span>
+              <% end %>
             </a>
             <hr id="cart-hr" class="visible-xs">
             <input type="search" placeholder="Search" class="form-control" id="search">

@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 
-	before_action :prepare_redcarpet
+	before_action :prepare_redcarpet, :load_cart
 
   def index
     @get_nutty = true

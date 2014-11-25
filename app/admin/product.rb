@@ -14,6 +14,26 @@ ActiveAdmin.register Product do
   #   permitted
   # end
 
+  filter :title
+  filter :sku
+  filter :created_at
+  filter :updated_at
+  filter :price
+
+
+  index do
+    selectable_column
+    column :image do |product|
+      image_tag product.image.url(:thumb)
+    end
+    column :title
+    column :sku
+    column :price
+    column :created_at
+    column :updated_at
+    actions
+  end
+
   show do |product|
     attributes_table do
       row :image do
@@ -26,6 +46,7 @@ ActiveAdmin.register Product do
     row :specs
     end
   end
+
 
   form html: { enctype: "multipart/form-data" } do |f|
     f.inputs "Product Details" do
